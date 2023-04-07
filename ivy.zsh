@@ -5,10 +5,12 @@
 [ ! -f $HOME/.asdf/completions/asdf.bash ] || . "$HOME/.asdf/completions/asdf.bash" 
 
 # python
-export PATH="$HOME/.pyenv/bin:$PATH"
-eval "$(pyenv init --path)"
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 [[ ! -d $HOME/.poetry/bin ]] || export PATH="$HOME/.poetry/bin:$PATH"
+
+echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.zshrc
 
 # nvm
 export NVM_DIR="$HOME/.nvm"
