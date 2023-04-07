@@ -1,0 +1,28 @@
+- defautls:
+    link:
+        force: true
+        relink: true
+
+- clean: ['~']
+
+- shell:
+    - [git submodule update --init --recursive, Installing submodules]
+
+
+- link:
+    $HOME/.zshrc:
+        force: true
+        path: .zshrc
+    $HOME/.gitconfig: 
+        force: true
+        path: .gitconfig
+    $HOME/ivy.zsh: 
+        create: true
+        force: true
+        path: ivy.zsh
+    $HOME/.p10k.zsh:
+        force: true
+        path: .p10k.zsh
+    $HOME/.ssh/config:
+         force: true
+         path: ssh-config
