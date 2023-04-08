@@ -50,8 +50,8 @@ else
 fi
 
 (installPkg wget curl)
-(installPkg python)
 (installPkg git)
 (installPkg vim)
-(installPkg x11-xserver-utils -p xorg-xset -c xorg-xset)
-(installPkg netcat-openbsd -p openbsd-netcat)
+(installPkg neovim)
+# (installPkg x11-xserver-utils -p xorg-xset -c xorg-xset)
+# (installPkg netcat-openbsd -p openbsd-netcat)
