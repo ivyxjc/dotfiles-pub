@@ -6,7 +6,10 @@
 [credential]
 	helper = store --file ~/.ssh/.git-credentials
 [commit]
-	gpgsign = false
+    gpgsign = false
+[user]
+    name=ivyxjc
+    email=ivyxjc1994@hotmail.com
 [gpg]
 	program = gpg
 [alias]

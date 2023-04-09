@@ -11,10 +11,11 @@
     - [x] nvm & node
     - [x] pyenv & python
 - [ ] aws components
-    - [ ] aws cli
-    - [ ] sam cli
-    - [ ] cdk cli
+    - [x] aws cli
+    - [x] sam cli
+    - [x] cdk cli
     - [ ] aws configure
 - [x] build-essential
 - [ ] git config of name/email
-- [ ] ssh of github
+- [ ] ssh of github (multi account)
+- [ ] credentialsl of aws (multi account)
