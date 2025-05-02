@@ -2,7 +2,3 @@ Host github.com
     HostName github.com
     User ivyxjc
     IdentityFile ~/.ssh/id_rsa
-Host magic.github.com
-    HostName magic.github.com
-    User ivyxjc
-    IdentityFile ~/.ssh/id_rsa_magic

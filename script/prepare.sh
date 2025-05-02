@@ -31,10 +31,11 @@ if [ $OS == "ubuntu" ] || [ $OS == "arch" ]; then
     sudo apt-get update
     sudo apt-get install -y build-essential locales
     # prepare for pyenv
-    sudo apt-get install -y locales libssl-dev zlib1g-dev \
+    sudo apt-get install -y libssl-dev zlib1g-dev \
         libbz2-dev libreadline-dev libsqlite3-dev curl \
         libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
-    sudo locale-gen "en_US.UTF-8"
+    sudo rm -rf /var/lib/apt/lists/*
+    sudo localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 fi
 
 if [ $OS == "centos" ] || [ $OS == "arch" ]; then 
