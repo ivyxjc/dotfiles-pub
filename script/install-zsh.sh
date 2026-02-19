@@ -13,6 +13,12 @@ if ! command -v zsh &> /dev/null; then
     installPkg zsh
 fi
 
+# install lua 5.4 (required for z.lua)
+if ! command -v lua &> /dev/null; then
+    echo "==========install lua=========="
+    installPkg lua5.4 -p lua
+fi
+
 # install oh-my-zsh (required for .zshrc)
 if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
     echo "==========install oh-my-zsh=========="
