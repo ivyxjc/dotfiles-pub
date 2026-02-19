@@ -27,18 +27,17 @@ if [ $OS == "manjaro" ] || [ $OS == "arch" ]; then
     sudo pacman -S --noconfirm openbsd-netcat
 fi
 
-if [ $OS == "ubuntu" ] || [ $OS == "arch" ]; then 
+if [ $OS == "ubuntu" ]; then
     sudo apt-get update
     sudo apt-get install -y build-essential locales
     # prepare for pyenv
     sudo apt-get install -y libssl-dev zlib1g-dev \
-        libbz2-dev libreadline-dev libsqlite3-dev curl \
+        libbz2-dev libreadline-dev libsqlite3-dev curl wget git vim \
         libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
-    sudo rm -rf /var/lib/apt/lists/*
     sudo localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 fi
 
-if [ $OS == "centos" ] || [ $OS == "arch" ]; then 
+if [ $OS == "centos" ]; then
     sudo yum update
 fi
 
@@ -50,7 +49,8 @@ else
     (installPkg build-essential -p base-devel)
 fi
 
-(installPkg wget curl)
+(installPkg wget)
+(installPkg curl)
 (installPkg git)
 (installPkg vim)
 (installPkg neovim)

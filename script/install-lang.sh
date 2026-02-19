@@ -40,27 +40,32 @@ if ! command -v golang &> /dev/null; then
     asdf set -u golang $(asdf latest golang)
 fi
 
-# install python via asdf
-if [[ -z $(asdf plugin list | grep python) ]]; then
-    asdf plugin add python
+# install python via pyenv
+if ! command -v pyenv &> /dev/null; then
+    echo "==========install pyenv=========="
+    curl https://pyenv.run | bash
+    export PYENV_ROOT="$HOME/.pyenv"
+    [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+    eval "$(pyenv init - bash)"
 fi
-if ! command -v python &> /dev/null; then
-    echo "=========install python=========="
-    asdf install python 3.12.10
-    asdf set -u python 3.12.10
-fi
-
-# install nodejs
-if ! command -v nvm &> /dev/null; then
-    echo "==========install nvm=========="
-    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
-    export NVM_DIR="$HOME/.nvm"
-    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-    nvm install lts/jod
-    nvm use lts/jod
+if ! pyenv versions | grep -q "3.13"; then
+    echo "==========install python 3.13=========="
+    pyenv install 3.13
+    pyenv global 3.13
 fi
 
+# install nodejs via fnm
+if ! command -v fnm &> /dev/null; then
+    echo "==========install fnm=========="
+    curl -fsSL https://fnm.vercel.app/install | bash
+    export PATH="$HOME/.local/share/fnm:$PATH"
+    eval "$(fnm env)"
+fi
+if ! fnm list | grep -q "v24"; then
+    echo "==========install node 24=========="
+    fnm install 24
+    fnm default 24
+fi
 
 # install rust
 if ! command -v rustup &> /dev/null; then
@@ -69,15 +74,4 @@ if ! command -v rustup &> /dev/null; then
     source "$HOME/.cargo/env"
     rustup update
     rustup component add rust-src
-fi
-
-if ! command -v pyenv &> /dev/null; then
-    echo "==========install pyenv=========="
-    curl https://pyenv.run | bash
-    export PYENV_ROOT="$HOME/.pyenv"
-    [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-    eval "$(pyenv init - bash)"
-    pyenv install 3.12
-    pyenv global 3.12
-    rm -rf /tmp/*
 fi

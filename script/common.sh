@@ -65,11 +65,13 @@ function checkOS() {
         source /etc/os-release
         if [[ $ID == "manjaro" ]]; then
             OS="manjaro"
-        else 
+        else
             OS="arch"
         fi
+    elif [[ "$(uname)" == "Darwin" ]]; then
+        OS="macos"
     else
-        echo "Looks like you aren't running this installer on a Debian, Ubuntu, Fedora, CentOS, Amazon Linux 2 or Arch Linux system"
+        echo "Looks like you aren't running this installer on a Debian, Ubuntu, Fedora, CentOS, Amazon Linux 2, Arch Linux or macOS system"
         exit 1
     fi
 }
@@ -82,46 +84,51 @@ function updateRepo(){
         yay -Syy
     elif [[ $OS =~ (centos|amzn) ]]; then
         sudo yum update
+    elif [[ $OS == "macos" ]]; then
+        brew update
     fi
 }
 
 function installPkgInner() {
     echo "--------------------------------"
     if [[ $OS == "ubuntu" ]]; then
-        if [[ -z "$UbuntuPkg" ]]; then 
-            echo "[  package: $Pkg]"
-            sudo apt -y install $Pkg  
-        else 
-            echo "[  package: $UbuntuPkg]"             
-            sudo apt -y install $UbuntuPkg 
+        if [[ -z "$UbuntuPkg" ]]; then
+            echo "[  package: $Pkg]"
+            sudo apt -y install $Pkg
+        else
+            echo "[  package: $UbuntuPkg]"
+            sudo apt -y install $UbuntuPkg
         fi
     elif [[ $OS == "debian" ]]; then
-        if [[ -z "$DebianPkg" ]]; then 
-            echo "[  package: $Pkg]"
+        if [[ -z "$DebianPkg" ]]; then
+            echo "[  package: $Pkg]"
             sudo apt -y install $Pkg
-        else 
-            echo "[  package: $DebianPkg]"
+        else
+            echo "[  package: $DebianPkg]"
             sudo apt -y install $DebianPkg
         fi
     elif [[ $OS == manjaro ]] || [[ $OS == arch ]]; then
-        if [[ ! -z "$PacmanPkg" ]]; then 
-            echo "[  package: $PacmanPkg]" 
+        if [[ ! -z "$PacmanPkg" ]]; then
+            echo "[  package: $PacmanPkg]"
             sudo pacman -S --noconfirm $PacmanPkg
-        elif [[ ! -z "$YayPkg" ]]; then 
-            echo "[  package(aur): $YayPkg]"
+        elif [[ ! -z "$YayPkg" ]]; then
+            echo "[  package(aur): $YayPkg]"
             yay -S $YayPkg
-        else 
-            echo "[  package: $Pkg]"
+        else
+            echo "[  package: $Pkg]"
             sudo pacman -S $Pkg
         fi
     elif [[ $OS == centos ]]; then
-        if [[ -z "$CentosPkg" ]]; then 
-            echo "[  package: $Pkg]"
+        if [[ -z "$CentosPkg" ]]; then
+            echo "[  package: $Pkg]"
             sudo yum install $Pkg
-        else 
-            echo "[  package: $CentosPkg]"
+        else
+            echo "[  package: $CentosPkg]"
             sudo yum install $CentosPkg
         fi
+    elif [[ $OS == "macos" ]]; then
+        echo "[  package: $Pkg]"
+        brew install $Pkg
     fi
 }
 
@@ -129,8 +136,10 @@ function installPkgInner() {
 # installPkg git -p git2
 
 function installPkg(){
-    Pkg="$1"
+    local Pkg="$1"
+    local PacmanPkg="" YayPkg="" DebianPkg="" UbuntuPkg="" CentosPkg=""
     shift
+    OPTIND=1  # Reset getopts
     while getopts ":p:y:d:u:c:" opt; do
         case $opt in
             # manjaro pacman
@@ -158,6 +167,5 @@ function installPkg(){
             ;;
         esac
     done
-    echo $UbuntuPkg
     installPkgInner
 }

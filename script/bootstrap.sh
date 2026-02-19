@@ -1,9 +1,12 @@
 #!/bin/bash
-. ./common.sh
+set -e
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+. "$SCRIPT_DIR/common.sh"
 
 checkOS
-bash prepare.sh
-bash install-zsh.sh
+bash "$SCRIPT_DIR/prepare.sh"
+bash "$SCRIPT_DIR/install-zsh.sh"
 echo "success to install zsh"
-bash install-lang.sh
+bash "$SCRIPT_DIR/install-lang.sh"
 echo "success to install language"
