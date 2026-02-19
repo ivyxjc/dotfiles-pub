@@ -1,13 +1,14 @@
-#!/bin/zsh 
-[[ ! -d $HOME/.local/bin ]] || export  PATH="$HOME/.local/bin:$PATH"
+#!/bin/zsh
+[[ ! -d $HOME/.local/bin ]] || export PATH="$HOME/.local/bin:$PATH"
 
-# python
-[[ ! -d $HOME/.poetry/bin ]] || export PATH="$HOME/.poetry/bin:$PATH"
+# pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+command -v pyenv &> /dev/null && eval "$(pyenv init - zsh)"
 
-# nvm
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion" | \
+# fnm (node version manager)
+[[ -d $HOME/.local/share/fnm ]] && export PATH="$HOME/.local/share/fnm:$PATH"
+command -v fnm &> /dev/null && eval "$(fnm env --use-on-cd)"
 
 # rust
 [[ ! -f ~/.cargo/env ]] || source ~/.cargo/env

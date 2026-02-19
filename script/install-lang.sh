@@ -55,6 +55,12 @@ if [[ "$INSTALL_PYTHON" == true ]]; then
         pyenv install 3.13
         pyenv global 3.13
     fi
+    # install uv (fast Python package installer)
+    if ! command -v uv &> /dev/null; then
+        echo "==========install uv=========="
+        curl -LsSf https://astral.sh/uv/install.sh | sh
+        export PATH="$HOME/.local/bin:$PATH"
+    fi
 fi
 
 # install nodejs via fnm
